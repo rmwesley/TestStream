@@ -14,6 +14,9 @@ class Bank {
 		this.name = name;
 		this.balance = balance;
 	}
+	public float getBalance() {
+		return this.balance;
+	}
 }
 
 class Client{
@@ -23,6 +26,9 @@ class Client{
 	public Client(String name, List<Bank> banks){
 		this.name = name;
 		this.banks = banks;
+	}
+	public List<Bank> getBanks() {
+		return this.banks;
 	}
 }
 
@@ -50,8 +56,12 @@ public class Test {
 
 		System.out.println(clients.stream()
 			.filter(client -> 
+				client.getBanks().stream()
+					.mapToDouble(Bank::getBalance)
+				/*
 				((Client) client).banks.stream()
 					.mapToDouble(bank -> ((Bank) bank).balance)
+				*/
 					.sum() < 600)
 			.map(client -> client.name)
 			.collect(Collectors.toList())
